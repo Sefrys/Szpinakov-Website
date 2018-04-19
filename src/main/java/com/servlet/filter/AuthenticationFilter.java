@@ -15,7 +15,7 @@ public class AuthenticationFilter implements Filter {
 
     private ServletContext context;
 
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         this.context = filterConfig.getServletContext();
         this.context.log("Authenticator Initialized");
     }
