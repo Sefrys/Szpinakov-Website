@@ -18,11 +18,14 @@ import java.util.Objects;
  */
 public class UserDao {
 
+
+    private final String jdbc = "java:comp/env/jdbc/sefrys_db";
+
     public void addUser(UserModel userModel) {
         DataSource ds = null;
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/database");
+            ds = (DataSource) ctx.lookup(jdbc);
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -32,11 +35,12 @@ public class UserDao {
 
         try {
             Connection con = Objects.requireNonNull(ds).getConnection();
-            stmt = con.prepareStatement("INSERT INTO users (login, email, password) VALUES (?, ?, ?)");
+
+            stmt = con.prepareStatement("INSERT INTO users(login, password, email) VALUES(?, ?, ?)");
 
             stmt.setString(1, userModel.getLogin());
-            stmt.setString(2, userModel.getEmail());
-            stmt.setString(3, userModel.getPassword());
+            stmt.setString(2, userModel.getPassword());
+            stmt.setString(3, userModel.getEmail());
 
             stmt.executeUpdate();
 
@@ -52,7 +56,7 @@ public class UserDao {
         DataSource ds = null;
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/database");
+            ds = (DataSource) ctx.lookup(jdbc);
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -65,7 +69,9 @@ public class UserDao {
             stmt.setString(1, userLogin);
 
             ResultSet rs = stmt.executeQuery();
-            matchCount =  rs.getInt("match");
+            if(rs.next()) {
+                matchCount =  rs.getInt("match");
+            }
 
             stmt.close();
             rs.close();
@@ -81,7 +87,7 @@ public class UserDao {
         DataSource ds = null;
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/database");
+            ds = (DataSource) ctx.lookup(jdbc);
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -94,7 +100,9 @@ public class UserDao {
             stmt.setString(1, userEmail);
 
             ResultSet rs = stmt.executeQuery();
-            matchCount =  rs.getInt("match");
+            if(rs.next()) {
+                matchCount =  rs.getInt("match");
+            }
 
             stmt.close();
             rs.close();
@@ -110,7 +118,7 @@ public class UserDao {
         DataSource ds = null;
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/database");
+            ds = (DataSource) ctx.lookup(jdbc);
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -124,7 +132,9 @@ public class UserDao {
             stmt.setString(2, userPassword);
 
             ResultSet rs = stmt.executeQuery();
-            matchCount =  rs.getInt("match");
+            if(rs.next()) {
+                matchCount =  rs.getInt("match");
+            }
 
             stmt.close();
             rs.close();

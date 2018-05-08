@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Resource name="jdbc/database"
+    <Resource name="jdbc/sefrys_db"
               auth="Container"
               type="javax.sql.DataSource"
-              driverClassName="org.sqlite.JDBC"
-              url="jdbc:sqlite:/${catalina.home}/dbs/database"
-              factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory">
+              username="sefrys"
+              password="RychuKarakan"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/sefrys_db"
+              maxTotal="30"
+              maxIdle="15"
+              factory="org.apache.commons.dbcp2.BasicDataSourceFactory">
+
     </Resource>
 </Context>
